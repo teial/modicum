@@ -5,3 +5,6 @@ edition = "2021"
 
 [dependencies]
 num-traits = "0.2.18"
+
+[dev-dependencies]
+pretty_assertions = "1.4.0"

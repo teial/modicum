@@ -19,6 +19,7 @@ fn egcd<T: Integer>(a: T, b: T) -> (T, T, T) {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn test_egcd() {
