@@ -2,6 +2,11 @@
 name = "modicum"
 version = "0.1.0"
 edition = "2021"
+authors = ["Teia Leusten <teia.leusten@proton.me>"]
+description = "Modular arithemtic library in pure Rust"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/teial/modicum"
+categories = ["algorithms", "math", "cryptography"]
 
 [dependencies]
 num-traits = "0.2.18"
