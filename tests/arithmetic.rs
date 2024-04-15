@@ -2,7 +2,7 @@ use modicum::*;
 use pretty_assertions::assert_eq;
 
 #[test]
-fn test_arithmetic() {
+fn test_signed() {
     let a = 5i32;
     let b = 3i32;
     let modulus = 7u32;
