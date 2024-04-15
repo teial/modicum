@@ -1,12 +1,14 @@
+use num_traits::Signed;
+
 use crate::Integer;
 
-pub trait Egcd: Integer {
+pub trait Egcd: Integer + Signed {
     fn egcd(self, other: Self) -> (Self, Self, Self) {
         egcd(self, other)
     }
 }
 
-impl<T: Integer> Egcd for T {}
+impl<T: Integer + Signed> Egcd for T {}
 
 fn egcd<T: Integer>(a: T, b: T) -> (T, T, T) {
     if b == T::zero() {
