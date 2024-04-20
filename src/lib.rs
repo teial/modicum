@@ -17,9 +17,9 @@
 //! use modicum::*;
 //! use pretty_assertions::assert_eq;
 //!
-//! let a = 5;
-//! let b = 3;
-//! let modulus = 7;
+//! let a = 5_i8;
+//! let b = 3_i8;
+//! let modulus = 7_u32;
 //! assert_eq!(a.add_mod(b, modulus), 1);
 //! assert_eq!(a.sub_mod(b, modulus), 2);
 //! assert_eq!(a.mul_mod(b, modulus), 1);
