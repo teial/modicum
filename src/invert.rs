@@ -1,6 +1,8 @@
 use super::{Constrain, Egcd, Modulus};
 
+/// A trait to invert an integer modulo a modulus.
 pub trait Invert: Egcd {
+    /// Invert an integer modulo a modulus.
     fn invert<P: Modulus<Self>>(self, p: P) -> Option<Self>
     where
         Self: TryFrom<P>,

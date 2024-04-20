@@ -2,6 +2,7 @@ use std::ops::{Div, Rem, Sub};
 
 use num_traits::{One, Zero};
 
+/// A trait for integers.
 pub trait Integer:
     Zero + One + Eq + Div<Output = Self> + Sub<Output = Self> + Rem<Output = Self> + Copy
 {

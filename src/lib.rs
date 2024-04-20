@@ -1,3 +1,35 @@
+//! # Modular arithmetic
+//!
+//! This crate provides a set of traits to perform modular arithmetic on integer types.
+//! The traits are implemented for the standard integer types and can be implemented for custom integer types.
+//! The traits are:
+//! - `Constrain<M>`: constrain an integer to a modulus.
+//! - `AddMod<M>`: add two integers and constrain the result to a modulus.
+//! - `SubMod<M>`: subtract two integers and constrain the result to a modulus.
+//! - `MulMod<M>`: multiply two integers and constrain the result to a modulus.
+//! - `DivMod<M>`: divide two integers and constrain the result to a modulus.
+//! - `PowMod<M>`: raise an integer to a power and constrain the result to a modulus.
+//! - `EqMod<M>`: check if two integers are congruent modulo a given modulus.
+//! - `Invert`: invert an integer with respect to a modulus.
+//!
+//! # Example
+//! ```
+//! use modicum::*;
+//! use pretty_assertions::assert_eq;
+//!
+//! let a = 5;
+//! let b = 3;
+//! let modulus = 7;
+//! assert_eq!(a.add_mod(b, modulus), 1);
+//! assert_eq!(a.sub_mod(b, modulus), 2);
+//! assert_eq!(a.mul_mod(b, modulus), 1);
+//! assert_eq!(a.div_mod(b, modulus), Some(4));
+//! assert!(a.eq_mod(5, modulus));
+//! assert!(!a.ne_mod(5, modulus));
+//! assert!(a.ne_mod(6, modulus));
+//! assert!(!a.eq_mod(6, modulus));
+//! ```
+
 mod egcd;
 mod integer;
 mod invert;
@@ -9,11 +41,13 @@ pub use invert::Invert;
 pub use modulus::Modulus;
 use num_traits::FromPrimitive;
 
+/// A trait to constrain an integer to a modulus.
 pub trait Constrain<M: Modulus<Self>>
 where
     Self: TryFrom<M>,
     <Self as TryFrom<M>>::Error: std::fmt::Debug,
 {
+    /// Constrain an integer to a modulus.
     fn constrain(self, modulus: M) -> Self;
 }
 
@@ -29,12 +63,16 @@ where
     }
 }
 
+/// A trait to add two integers and constrain the result to a modulus.
 pub trait AddMod<M: Modulus<Self>, Rhs = Self>
 where
     Self: TryFrom<M>,
     <Self as TryFrom<M>>::Error: std::fmt::Debug,
 {
+    /// The output type.
     type Output;
+
+    /// Add two integers and constrain the result to a modulus.
     fn add_mod(self, rhs: Rhs, modulus: M) -> Self::Output;
 }
 
@@ -50,12 +88,16 @@ where
     }
 }
 
+/// A trait to subtract two integers and constrain the result to a modulus.
 pub trait SubMod<M: Modulus<Self>, Rhs = Self>
 where
     Self: TryFrom<M>,
     <Self as TryFrom<M>>::Error: std::fmt::Debug,
 {
+    /// The output type.
     type Output;
+
+    /// Subtract two integers and constrain the result to a modulus.
     fn sub_mod(self, rhs: Rhs, modulus: M) -> Self::Output;
 }
 
@@ -65,18 +107,25 @@ where
     <T as TryFrom<M>>::Error: std::fmt::Debug,
     M: Modulus<T>,
 {
+    /// The output type.
     type Output = T;
+
+    /// Subtract two integers and constrain the result to a modulus.
     fn sub_mod(self, rhs: T, modulus: M) -> T {
         (self - rhs).constrain(modulus)
     }
 }
 
+/// A trait to multiply two integers and constrain the result to a modulus.
 pub trait MulMod<M: Modulus<Self>, Rhs = Self>
 where
     Self: TryFrom<M>,
     <Self as TryFrom<M>>::Error: std::fmt::Debug,
 {
+    /// The output type.
     type Output;
+
+    /// Multiply two integers and constrain the result to a modulus.
     fn mul_mod(self, rhs: Rhs, modulus: M) -> Self::Output;
 }
 
@@ -92,12 +141,17 @@ where
     }
 }
 
+/// A trait to divide two integers and constrain the result to a modulus.
 pub trait DivMod<M: Modulus<Self>, Rhs = Self>
 where
     Self: TryFrom<M>,
     <Self as TryFrom<M>>::Error: std::fmt::Debug,
 {
+    /// The output type.
     type Output;
+
+    /// Divide two integers and constrain the result to a modulus.
+    /// If the divisor is not invertible, return `None`.
     fn div_mod(self, rhs: Rhs, modulus: M) -> Option<Self::Output>;
 }
 
@@ -114,12 +168,16 @@ where
     }
 }
 
+/// A trait to raise an integer to a power and constrain the result to a modulus.
 pub trait PowMod<M: Modulus<Self>, Rhs = Self>
 where
     Self: TryFrom<M>,
     <Self as TryFrom<M>>::Error: std::fmt::Debug,
 {
+    /// The output type.
     type Output;
+
+    /// Raise an integer to a power and constrain the result to a modulus.
     fn pow_mod(self, rhs: Rhs, modulus: M) -> Self::Output;
 }
 
@@ -145,12 +203,16 @@ where
     }
 }
 
+/// A trait to check if two integers are congruent, that is, they are equal modulo a given modulus.
 pub trait EqMod<M: Modulus<Self>, Rhs = Self>
 where
     Self: TryFrom<M>,
     <Self as TryFrom<M>>::Error: std::fmt::Debug,
 {
+    /// Check if two integers are congruent modulo a given modulus.
     fn eq_mod(self, rhs: Rhs, modulus: M) -> bool;
+
+    /// Check if two integers are not congruent modulo a given modulus.
     fn ne_mod(self, rhs: Rhs, modulus: M) -> bool;
 }
 

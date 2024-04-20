@@ -2,7 +2,10 @@ use num_traits::Signed;
 
 use crate::Integer;
 
+/// A trait to compute the extended greatest common divisor of two integers.
 pub trait Egcd: Integer + Signed {
+    /// Compute the extended greatest common divisor of two integers.
+    /// Returns `(d, x, y)` such that `d = gcd(self, other) = self * x + other * y`.
     fn egcd(self, other: Self) -> (Self, Self, Self) {
         egcd(self, other)
     }
